@@ -29,13 +29,28 @@ export default class App extends Component {
     })
   }
 
+  logOut = () => {
+    localStorage.setItem('TOKEN', '');
+    localStorage.setItem('USERNAME', '');
+
+    this.setState({
+      username: '',
+      token: ''
+    })
+  }
+
   render() {
     return (
       <div>
         <Router>
           <ul>
-            <Link to="/login"><div>Log In</div></Link>
-            <Link to="/signup"><div>Sign Up</div></Link>
+            {this.state.token
+              ? <div><button onClick={this.logOut}>Log Out</button></div>
+              : <div>
+                  <Link to="/login"><div>Log In</div></Link>
+                  <Link to="/signup"><div>Sign Up</div></Link>
+                </div>
+            }
           </ul>
           <Switch>
             <Route
