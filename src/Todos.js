@@ -25,6 +25,8 @@ export default class Todos extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(this.state);
+
         await request
             .post('https://pacific-mesa-57017.herokuapp.com/api/todos')
             .send({
@@ -32,8 +34,8 @@ export default class Todos extends Component {
                 })
             .set('Authorization', this.props.token)
 
-            await this.fetchTodos();
             await this.setState({ loading: true })
+            await this.fetchTodos();
             // STRETCH: clear form on submit
     }
 
@@ -41,7 +43,7 @@ export default class Todos extends Component {
         await request
             .put(`https://pacific-mesa-57017.herokuapp.com/api/todos/${id}`)
             .set('Authorization', this.props.token);
-            
+
         await this.fetchTodos();
     }
 
