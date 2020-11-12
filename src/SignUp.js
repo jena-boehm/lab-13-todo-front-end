@@ -1,15 +1,26 @@
 import React, { Component } from 'react'
+import request from 'superagent';
 
 export default class SignUp extends Component {
     state = {
         email: '',
-        password: ''
+        password: '',
+        loading: false
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
 
         console.log(this.state);
+
+        this.setState({ loading: true })
+        const user = await request 
+            .post('https://pacific-mesa-57017.herokuapp.com/auth/signup')
+            .send(this.state);
+
+        console.log(user.body);
+
+        this.setState({ loading: false });
     }
 
     render() {
@@ -33,7 +44,11 @@ export default class SignUp extends Component {
                             type="password"
                         />
                     </label>
-                    <button>Sign Up</button>
+                    {
+                        this.state.loading
+                        ? 'Loading...'
+                        : <button>Sign Up</button>
+                    }
                 </form>
             </div>
         )
